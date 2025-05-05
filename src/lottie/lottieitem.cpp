@@ -83,6 +83,16 @@ static bool trimProp(rlottie::Property prop)
     }
 }
 
+static bool isGoodParentLayer(rlottie::internal::renderer::Layer *parent, rlottie::internal::renderer::Layer *child) {
+    do {
+        if (parent == child) {
+            return false;
+        }
+        parent = parent->resolvedParentLayer();
+    } while (parent);
+    return true;
+}
+
 static renderer::Layer *createLayerItem(model::Layer *layerData,
                                         VArenaAlloc * allocator)
 {
@@ -491,7 +501,8 @@ renderer::CompLayer::CompLayer(model::Layer *layerModel, VArenaAlloc *allocator)
             auto search =
                 std::find_if(mLayers.begin(), mLayers.end(),
                              [id](const auto &val) { return val->id() == id; });
-            if (search != mLayers.end()) layer->setParentLayer(*search);
+            if (search != mLayers.end() && isGoodParentLayer(*search, layer))
+                layer->setParentLayer(*search);
         }
     }
 

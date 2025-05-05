@@ -249,6 +249,7 @@ void model::Gradient::populate(VGradientStops &stops, int frameNo)
     model::Gradient::Data gradData = mGradient.value(frameNo);
     auto                  size = gradData.mGradient.size();
     float *               ptr = gradData.mGradient.data();
+    if (!ptr) return;
     int                   colorPoints = mColorPoints;
     if (colorPoints == -1) {  // for legacy bodymovin (ref: lottie-android)
         colorPoints = int(size / 4);

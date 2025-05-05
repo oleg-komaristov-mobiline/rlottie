@@ -218,6 +218,7 @@ public:
     int          id() const { return mLayerData->id(); }
     int          parentId() const { return mLayerData->parentId(); }
     void         setParentLayer(Layer *parent) { mParentLayer = parent; }
+    Layer *      resolvedParentLayer() const {return mParentLayer;}
     void         setComplexContent(bool value) { mComplexContent = value; }
     bool         complexContent() const { return mComplexContent; }
     virtual void update(int frameNo, const VMatrix &parentMatrix,
